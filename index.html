@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Tracker - Google Login</title>
+    <style>
+        /* General styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #4CAF50, #81C784);
+        }
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #4285F4; /* Google Blue */
+            border: none;
+            color: white;
+            font-size: 1.1em;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #357AE8; /* Darker shade */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Login with Google</h2>
+        <button class="btn" id="googleSignInBtn">Sign in with Google</button>
+        <div class="footer">
+            <p>By signing in, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCSw0_OhArbx-163wUJ-VnJ3vHmxD7TS90",
+            authDomain: "gods-eye-bd6e0.firebaseapp.com",
+            projectId: "gods-eye-bd6e0",
+            storageBucket: "gods-eye-bd6e0.appspot.com",
+            messagingSenderId: "708996587057",
+            appId: "1:708996587057:web:d62dc2db8deff10eea3f10",
+            measurementId: "G-0PVPFYSPYM"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const auth = getAuth(app);
+
+        // Google sign-in function
+        const googleSignInBtn = document.getElementById("googleSignInBtn");
+        googleSignInBtn.addEventListener("click", () => {
+            const provider = new GoogleAuthProvider();
+            signInWithRedirect(auth, provider);
+        });
+
+        // Handle redirect result
+        getRedirectResult(auth).then((result) => {
+            if (result.user) {
+                // User signed in
+                console.log('User signed in:', result.user);
+                // Redirect to Add Member page
+                window.location.href = "add_member.html"; // Ensure this file exists
+            }
+        }).catch((error) => {
+            console.error('Error during sign-in:', error);
+            alert('Error: ' + error.message);
+        });
+    </script>
+
+
+</body></html>
